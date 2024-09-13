@@ -1,0 +1,293 @@
+
+/*#######################################################################################################################
+styles of predefined classes
+#######################################################################################################################*/
+
+/* main body */
+body {
+  padding-top: 5px;
+  border-color: deepskyblue;
+  background-color: ghostwhite;
+}
+
+/*style of horizontal lines*/
+hr {
+  border-color: #27408B;
+  margin: 0;
+  padding: 0;
+}
+
+/*font style of all labels such as textInput etc. (does not apply to div())*/
+label {
+  color: #27408B;
+  font-weight: normal;
+}
+
+/*style of input boxes such as textInput etc.: remove default margins */
+.shiny-input-container {
+  margin: 0;
+}
+
+
+/*#######################################################################################################################
+styles of customised classes
+#######################################################################################################################*/
+
+/* panel header style */
+#page_head {
+  padding-bottom: 3px;
+  border: 1px solid #27408B;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+  background-color: #27408B;
+  color: white;
+  font-size: 18px;
+  text-align: center;
+}
+
+/* subpage header style */
+#subpage_head {
+  color: #27408B;
+  font-size: 16px;
+  overflow-x: hidden;
+}
+
+/* subpage_body style (e.g. repeated choice sets or radiobutton grids) */
+#subpage_body {
+  padding: 10px;
+  margin-bottom: 0;
+  border: 1px solid dodgerblue;
+  border-radius: 10px;
+  background-color: whitesmoke;
+}
+
+/*font style of question label (should correspond to label{}*/
+#qst_lbl {
+  color: #27408B;
+  font-weight: normal;
+  padding-top: 10px;
+}
+
+/* warning text */
+#warning {
+  color: red;
+  vertical-align: middle;
+  line-height: 150%;
+}
+
+
+/*#######################################################################################################################
+styles depending on screen width
+#######################################################################################################################*/
+/* If screen size is more than 940px wide: limit panel width to 940px and center its position*/
+@media screen and (min-width: 940px) {
+  /* page_body style */
+  #page_body {
+    padding: 0;
+    border: 1px solid #27408B;
+    border-radius: 10px;
+    background-color: aliceblue;
+    width: 940px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+/* If screen size is 940px wide or less: set panel width to 100% */
+@media screen and (max-width: 940px) {
+  /* page_body style */
+  #page_body {
+    padding: 0;
+    border: 1px solid #27408B;
+    border-radius: 10px;
+    background-color: aliceblue;
+    width: 100%;
+  }
+}
+
+
+/*#######################################################################################################################
+styles for table grids (split layout in table style)
+#######################################################################################################################*/
+
+/* table header = panel with introduction text and header labels, requires border-bottom  */
+#tb_h {
+  padding: 5px;
+  padding-bottom: 0;
+  border-bottom: 1px solid gainsboro;
+  color: #27408B;
+}
+
+/* subpanels for rows with large padding and altering background */
+#tb2_r1 {
+  padding: 5px;
+  border-bottom: 1px solid gainsboro;
+  background-color: ivory;
+}
+
+#tb2_r2 {
+  padding: 5px;
+  border-bottom: 1px solid gainsboro;
+  background-color: whitesmoke;
+}
+
+/* table text with large padding */
+#tb2_t {
+  padding: 5px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+/* subpanels for rows with small padding and altering background */
+#tb3_r1 {
+  padding: 2px;
+  border-bottom: 1px solid gainsboro;
+  background-color: ivory;
+}
+
+#tb3_r2 {
+  padding: 2px;
+  border-bottom: 1px solid gainsboro;
+  background-color: whitesmoke;
+}
+
+/* table text with small padding (allow scroll bar if screen is too small) */
+#tb3_t {
+  padding: 2px;
+  /* overflow-x: hidden;
+  overflow-y: hidden; */
+}
+
+
+/*#######################################################################################################################
+styles for radiobutton grids
+#######################################################################################################################*/
+
+/* styles for line-separated radiobuttons */
+
+.radio, .checkbox { /* checkbox is a div class*/
+  line-height: 20px;
+  margin-top: 0; /*vertical distance of 1st button from surrounding frame*/
+  margin-bottom: 3px; /*vertical distance between buttons*/
+}
+
+input[type='radio'], input[type='checkbox']{ /* style for checkboxes */
+  width: 30px; /*Desired width*/
+  line-height: 10px; 
+}
+
+span { 
+  margin-left: 10px; /*horizontal distance from button to label*/
+  line-height: 10px; 
+}
+
+/* style single input elements addressed by their inputId, e.g. gender and education
+#gender, #educ {
+  margin-top: 20px;
+} */
+
+
+/* styles for in-line radiobuttons: required for aligned radiobutton grids */
+/* note: this affects the styles of all in-line radiobuttons -> looks ugly outside of a grid*/
+.radio-inline {
+  text-align: center;
+	margin: 0;
+	padding: 0;
+	width: 10%;
+}
+
+/* radiobutton grid header = panel with introduction text and header labels, requires border-bottom  */
+#rb_h {
+  border-bottom: 1px solid gainsboro;
+  padding-bottom: 10px;
+}
+
+/* subpanels for individual rows of the radiobutton grid with altering background color */
+#rb2_r1 {
+  padding-top: 2px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid gainsboro;
+  background-color: ivory;
+}
+
+#rb2_r2 {
+  padding-top: 2px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid gainsboro;
+  background-color: whitesmoke;
+}
+
+/* radiobutton grid text = text of questions on the left, vertically aligned with buttons */
+#rb_t {
+  padding-top: 8px;
+  padding-left: 4px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+/* radiobutton grid header labels = answer categories at the top, horizontally aligned with buttons */
+#rb_l1 {
+  padding-bottom: 2px;
+  line-height: 1.2;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  text-align: center;
+}
+
+/* radiobutton grid radiobutton style: labels at individual buttons are invisible ("") */
+#rb_b {
+  padding: 0;
+  padding-top: 8px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+
+/*#######################################################################################################################
+styles for choice experiments
+#######################################################################################################################*/
+
+/* subpanels for individual rows of the choice set with altering background color */
+#cs2_r1 {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid gainsboro;
+  background-color: ivory;
+}
+
+#cs2_r2 {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid gainsboro;
+  background-color: whitesmoke;
+}
+
+/* choiceset labels = description of attributes on the left*/
+
+#cs_l {
+  padding-left: 4px;
+  overflow-x: hidden;
+}
+
+/* choiceset values = attribute values of alternatives*/
+#cs_v {
+  text-align: center;
+  overflow-x: hidden;
+  border-left: 1px solid gainsboro;
+}
+
+/* choiceset values = attribute values of alternatives*/
+#cs_c {
+  padding-bottom: 8px;
+  border-bottom: 1px solid gainsboro;
+  background-color: #C1FFC1; /*darkseagreen1*/
+  /*background-color: #48CFAD; /*green from icons*/
+}
+
+/* choiceset values = attribute values of alternatives*/
+#cs_c0 {
+  padding-bottom: 0;
+}
+
+/* end of styles */
