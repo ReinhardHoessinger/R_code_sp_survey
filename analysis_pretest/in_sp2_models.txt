@@ -1,0 +1,117 @@
+How to use
+[#] indicates the start of a model specification; the number must be unique, it serves as identifier of the model
+blank line indicates the end of a model specification (don't use blank lines within a model specification)
+lbl section: model description as human information (not used by the machine)
+sys section:
+	Specify names of ID var, choice var, and weight var
+	Notation: ID = ID_var, chc = choice_var, wgt = weight_var
+	ID and weight can be zero (not specified); chc must always be specified (e.g.: ID = 0, chc = choice_var, wgt = 0)
+set section:
+	Specify model settings: typ (multinomial, latent class, nested logit), panel structure (repeated choices per individual), random coefficients
+	Notation: typ = c(mnl, lcs, nst), pan = c(0,1), rnd = c(0,1)
+	typ = lcs requires
+		in u## section:
+			class-dependent utility functions: 1 function per alternative and class with class-specific parameters
+			affiliation of each utility function to an alternative AND a class in the row header: u## | x#cy: (x = alternative, y = class)
+		c## section with utility functions of class membership: 1 function per class
+	typ = nst requires
+		in u## section:
+			affiliation of each utility function to an alternative AND a nest in the row header: u## | x#ny: (x = alternative, y = nest)
+	rnd = 1 requires
+		rnd section with specified random vars (see below)
+		parameters for these random vars in utility functions
+rnd section:
+	indicates the random vars (separated by ', ') to be generated during data preparation (only required if rnd = 1)
+u## section:
+	includes the utility functions -> one row for each alternative (and for each class if typ = lcs)
+	the number at the beginning of each row identifies the alternative; it must correspond to the respective value of the choice_var
+	: is the separator between number of alternative and availability var
+	[...] specifies the name of the availability var; if it does not exist in the data it is generated during data preparation and set to 1
+	the utility function right of [...] can be any expression that can be evaluated in R
+c## section:
+	only required if lcs = 1 in the spc section: indicates the utility functions of class membership (1 function per class)
+fix section:
+	indicates the parameters (separated by ', ') which are not estimated but remain with the starting value in beta
+End of how to use section
+
+[0]
+lbl | m00: SP2 constants only model
+sys | ID = PeID, chc = chc, wgt = 0
+set | typ = mnl, pan = 0, rnd = 0
+u01 | 1: [avl_1] ASC_1
+u02 | 11: [avl_11] ASC_StayCar
+u03 | 12: [avl_12] ASC_StayCar
+u02 | 13: [avl_13] ASC_StayCar
+u05 | 14: [avl_14] ASC_Pub2Car
+u06 | 21: [avl_21] ASC_StayPub
+u07 | 22: [avl_22] ASC_StayPub
+u08 | 23: [avl_23] ASC_StayPub
+u09 | 24: [avl_24] ASC_Car2Pub
+fix | ASC_1
+
+[1]
+lbl | m01: SP2 all displayed attributes
+sys | ID = PeID, chc = chc, wgt = 0
+set | typ = mnl, pan = 0, rnd = 0
+u01 | 1: [avl_1] ASC_1
+u02 | 11: [avl_11] ASC_StayCar + b_pdep1 * pdep1_1 + b_ndep1 * ndep1_1 + b_pdep2 * pdep2_1 + b_ndep2 * ndep2_1 + b_pstay * pstay_1 + b_nstay * nstay_1 + b_dur_car * dur_1 + b_cost_car * cost_1 + b_costt_car * costt_1
+u03 | 12: [avl_12] ASC_StayCar + b_pdep1 * pdep1_2 + b_ndep1 * ndep1_2 + b_pdep2 * pdep2_2 + b_ndep2 * ndep2_2 + b_pstay * pstay_2 + b_nstay * nstay_2 + b_dur_car * dur_2 + b_cost_car * cost_2
+u02 | 13: [avl_13] ASC_StayCar + b_pdep1 * pdep1_3 + b_ndep1 * ndep1_3 + b_pdep2 * pdep2_3 + b_ndep2 * ndep2_3 + b_pstay * pstay_3 + b_nstay * nstay_3 + b_dur_car * dur_3 + b_cost_car * cost_3
+u05 | 14: [avl_14] ASC_Pub2Car + b_pdep1 * pdep1_4 + b_ndep1 * ndep1_4 + b_pdep2 * pdep2_4 + b_ndep2 * ndep2_4 + b_pstay * pstay_4 + b_nstay * nstay_4 + b_dur_car * dur_4 + b_cost_car * cost_4
+u06 | 21: [avl_21] ASC_StayPub + b_pdep1 * pdep1_1 + b_ndep1 * ndep1_1 + b_pdep2 * pdep2_1 + b_ndep2 * ndep2_1 + b_pstay * pstay_1 + b_nstay * nstay_1 + b_dur_pub * dur_1 + b_cost_pub * cost_1 + b_load * load_1 + b_costt_pub * costt_1
+u07 | 22: [avl_22] ASC_StayPub + b_pdep1 * pdep1_2 + b_ndep1 * ndep1_2 + b_pdep2 * pdep2_2 + b_ndep2 * ndep2_2 + b_pstay * pstay_2 + b_nstay * nstay_2 + b_dur_pub * dur_2 + b_cost_pub * cost_2 + b_load * load_2
+u08 | 23: [avl_23] ASC_StayPub + b_pdep1 * pdep1_3 + b_ndep1 * ndep1_3 + b_pdep2 * pdep2_3 + b_ndep2 * ndep2_3 + b_pstay * pstay_3 + b_nstay * nstay_3 + b_dur_pub * dur_3 + b_cost_pub * cost_3 + b_load * load_3
+u09 | 24: [avl_24] ASC_Car2Pub + b_pdep1 * pdep1_4 + b_ndep1 * ndep1_4 + b_pdep2 * pdep2_4 + b_ndep2 * ndep2_4 + b_pstay * pstay_4 + b_nstay * nstay_4 + b_dur_pub * dur_4 + b_cost_pub * cost_4 + b_load * load_4
+fix | ASC_1
+
+[2]
+lbl | m02: SP2 all displayed attributes except peak price
+sys | ID = PeID, chc = chc, wgt = 0
+set | typ = mnl, pan = 0, rnd = 0
+u01 | 1: [avl_1] ASC_1
+u02 | 11: [avl_11] ASC_StayCar + b_pdep1 * pdep1_1 + b_ndep1 * ndep1_1 + b_pdep2 * pdep2_1 + b_ndep2 * ndep2_1 + b_pstay * pstay_1 + b_nstay * nstay_1 + b_dur_car * dur_1 + b_cost_car * cost_1
+u03 | 12: [avl_12] ASC_StayCar + b_pdep1 * pdep1_2 + b_ndep1 * ndep1_2 + b_pdep2 * pdep2_2 + b_ndep2 * ndep2_2 + b_pstay * pstay_2 + b_nstay * nstay_2 + b_dur_car * dur_2 + b_cost_car * cost_2
+u02 | 13: [avl_13] ASC_StayCar + b_pdep1 * pdep1_3 + b_ndep1 * ndep1_3 + b_pdep2 * pdep2_3 + b_ndep2 * ndep2_3 + b_pstay * pstay_3 + b_nstay * nstay_3 + b_dur_car * dur_3 + b_cost_car * cost_3
+u05 | 14: [avl_14] ASC_Pub2Car + b_pdep1 * pdep1_4 + b_ndep1 * ndep1_4 + b_pdep2 * pdep2_4 + b_ndep2 * ndep2_4 + b_pstay * pstay_4 + b_nstay * nstay_4 + b_dur_car * dur_4 + b_cost_car * cost_4
+u06 | 21: [avl_21] ASC_StayPub + b_pdep1 * pdep1_1 + b_ndep1 * ndep1_1 + b_pdep2 * pdep2_1 + b_ndep2 * ndep2_1 + b_pstay * pstay_1 + b_nstay * nstay_1 + b_dur_pub * dur_1 + b_cost_pub * cost_1 + b_load * load_1
+u07 | 22: [avl_22] ASC_StayPub + b_pdep1 * pdep1_2 + b_ndep1 * ndep1_2 + b_pdep2 * pdep2_2 + b_ndep2 * ndep2_2 + b_pstay * pstay_2 + b_nstay * nstay_2 + b_dur_pub * dur_2 + b_cost_pub * cost_2 + b_load * load_2
+u08 | 23: [avl_23] ASC_StayPub + b_pdep1 * pdep1_3 + b_ndep1 * ndep1_3 + b_pdep2 * pdep2_3 + b_ndep2 * ndep2_3 + b_pstay * pstay_3 + b_nstay * nstay_3 + b_dur_pub * dur_3 + b_cost_pub * cost_3 + b_load * load_3
+u09 | 24: [avl_24] ASC_Car2Pub + b_pdep1 * pdep1_4 + b_ndep1 * ndep1_4 + b_pdep2 * pdep2_4 + b_ndep2 * ndep2_4 + b_pstay * pstay_4 + b_nstay * nstay_4 + b_dur_pub * dur_4 + b_cost_pub * cost_4 + b_load * load_4
+fix | ASC_1
+
+[3]
+lbl | m04: SP2 all displayed attributes except departure time of trip 2
+sys | ID = PeID, chc = chc, wgt = 0
+set | typ = mnl, pan = 0, rnd = 0
+u01 | 1: [avl_1] ASC_1
+u02 | 11: [avl_11] ASC_StayCar + b_pdep1 * pdep1_1 + b_ndep1 * ndep1_1 + b_pstay * pstay_1 + b_nstay * nstay_1 + b_dur_car * dur_1 + b_cost_car * cost_1 + b_costt_car * costt_1
+u03 | 12: [avl_12] ASC_StayCar + b_pdep1 * pdep1_2 + b_ndep1 * ndep1_2 + b_pstay * pstay_2 + b_nstay * nstay_2 + b_dur_car * dur_2 + b_cost_car * cost_2
+u02 | 13: [avl_13] ASC_StayCar + b_pdep1 * pdep1_3 + b_ndep1 * ndep1_3 + b_pstay * pstay_3 + b_nstay * nstay_3 + b_dur_car * dur_3 + b_cost_car * cost_3
+u05 | 14: [avl_14] ASC_Pub2Car + b_pdep1 * pdep1_4 + b_ndep1 * ndep1_4 + b_pstay * pstay_4 + b_nstay * nstay_4 + b_dur_car * dur_4 + b_cost_car * cost_4
+u06 | 21: [avl_21] ASC_StayPub + b_pdep1 * pdep1_1 + b_ndep1 * ndep1_1 + b_pstay * pstay_1 + b_nstay * nstay_1 + b_dur_pub * dur_1 + b_cost_pub * cost_1 + b_load * load_1 + b_costt_pub * costt_1
+u07 | 22: [avl_22] ASC_StayPub + b_pdep1 * pdep1_2 + b_ndep1 * ndep1_2 + b_pstay * pstay_2 + b_nstay * nstay_2 + b_dur_pub * dur_2 + b_cost_pub * cost_2 + b_load * load_2
+u08 | 23: [avl_23] ASC_StayPub + b_pdep1 * pdep1_3 + b_ndep1 * ndep1_3 + b_pstay * pstay_3 + b_nstay * nstay_3 + b_dur_pub * dur_3 + b_cost_pub * cost_3 + b_load * load_3
+u09 | 24: [avl_24] ASC_Car2Pub + b_pdep1 * pdep1_4 + b_ndep1 * ndep1_4 + b_pstay * pstay_4 + b_nstay * nstay_4 + b_dur_pub * dur_4 + b_cost_pub * cost_4 + b_load * load_4
+fix | ASC_1
+
+end of model specifications
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
